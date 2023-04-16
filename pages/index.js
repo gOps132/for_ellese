@@ -16,7 +16,7 @@ export default function Home() {
 	const audioElmRef = useRef(null);
 
 	const play = () => {
-		if(window !== undefined)
+		if(window !== undefined && !analyzer)
 		{
 			setAnalyzer(new AudioAnalyzer(audioElmRef.current));	
 		}
