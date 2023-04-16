@@ -1,30 +1,24 @@
-import React from "react";
-import * as THREE from "three";
+import { useEffect, useRef, useState } from "react";
 
 import { extend } from "@react-three/fiber";
 
 import {Canvas, useFrame, useThree} from "@react-three/fiber";
-import styles from "../styles/Home.module.css";
+import styles from "@/styles/Home.module.css";
 
-import OrbitControls from "../components/orbit_controls";
+import OrbitControls from "@/components/orbit_controls";
+import AudioPlane from "@/components/plane";
+import { AudioAnalyzer } from "@/components/analyzer";
+import Text from "@/components/text";
 
 export default function Home() {
-	let test, audioContext, audioElement, dataArray, analyser, source;
-	let audio_id = "fur_elise";
-	const setupAudioContext = () => {
-		audioContext = new window.AudioContext();
-		audioElement = document.getElementById(audio_id);
-		source = audioContext.createMediaElementSource(audioElement);
-		analyser = audioContext.createAnalyser();
-		source.connect(analyser);
-		analyser.connect(audioContext.destination);
-		analyser.fftSize = 1024;
-		dataArray = new Uint8Array(analyser.frequencyBinCount);
-	};
-	
-	const play = async () => {
-		if (audioContext === undefined) {
-		  setupAudioContext();
+	const [analyzer, setAnalyzer] = useState(null)
+
+	const audioElmRef = useRef(null);
+
+	const play = () => {
+		if(window !== undefined)
+		{
+			setAnalyzer(new AudioAnalyzer(audioElmRef.current));	
 		}
 	}
 
@@ -46,26 +40,27 @@ export default function Home() {
 					maxDistance={1000}
 					minDistance={100}
 				/>
-				<group>
-					<mesh
-						// rotateZ={-Math.PI / 2 + Math.PI + 4}
-					>
-						<planeGeometry args={[64,64,64,64]} />
-						<meshNormalMaterial
-							wireframe={true}
-						/>
-					</mesh>
-				</group>
+				<Text 
+					position={[-15,30,-10]}
+					rotation={[Math.PI / 4,0,0]}
+					text={"For Ellese"}
+				/>
+				{analyzer && 
+				<AudioPlane
+					_analyzer={analyzer}
+					rotation={[(-Math.PI / 3), 0, 0]}
+					position={[0,5,0]}
+				/>}
 			</Canvas>
 			<div className={styles.player}>
-				<audio
-				id={audio_id}
-				src="/audio/fur_elise.mp3"
-				className="w-80"
-				controls
-				autoPlay
-				onPlay={play}
-				/>
+				<audio 
+					src={"/audio/fur_elise.mp3"}
+					controls
+					onPlay={() => { 
+						play();
+					}}
+					ref={audioElmRef}
+				/>				
 			</div>
 		</div>
 	)
