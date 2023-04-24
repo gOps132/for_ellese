@@ -8,7 +8,6 @@ export class AudioAnalyzer {
 			sourceNode: null,
 		};
 	
-		console.log("Audio ELEMENT! \n" + audioElement);
 		this.state.ctx = new AudioContext();
 		this.state.analyzerNode = this.state.ctx.createAnalyser();
 
@@ -20,8 +19,8 @@ export class AudioAnalyzer {
 		this.state.sourceNode.connect(this.state.analyzerNode);
 		this.state.analyzerNode.connect(this.state.ctx.destination);
 
-		this.state.analyzerNode.minDecibels = -60;
-		this.state.analyzerNode.smoothingTimeConstant = 0.8;
+		// this.state.analyzerNode.minDecibels = -60;
+		// this.state.analyzerNode.smoothingTimeConstant = 0.8;
 		this.state.analyzerNode.fftSize = 1024;
 	}
   

@@ -42,7 +42,7 @@ export default function Home() {
 				/>
 				<Text 
 					position={[-15,30,-10]}
-					rotation={[Math.PI / 4,0,0]}
+					// rotation={[Math.PI / 4,0,0]}
 					text={"For Ellese"}
 				/>
 				{analyzer && 
@@ -53,7 +53,7 @@ export default function Home() {
 				/>}
 			</Canvas>
 			<div className={styles.player}>
-				<audio 
+				<audio
 					src={"/audio/fur_elise.mp3"}
 					controls
 					onPlay={() => { 

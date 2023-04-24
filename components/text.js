@@ -16,7 +16,8 @@ export default function Text(props){
 	const { camera } = useThree();
 	useFrame(() => {
 		mat_ref.current.rotation.copy(camera.rotation);
-		mat_ref.current.rotation.x = camera.rotation.x + props.rotation[0];
+		if(props.rotation)
+			mat_ref.current.rotation.x = camera.rotation.x + props.rotation[0];
 	})
 	return (
 		<mesh 
